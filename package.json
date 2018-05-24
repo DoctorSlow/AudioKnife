@@ -1,0 +1,29 @@
+{
+  "name": "audioknife",
+  "version": "1.0.0",
+  "description": "music article scraper",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoctorSlow/AudioKnife.git"
+  },
+  "keywords": [
+    "music",
+    "article-scraper",
+    "scraper",
+    "mongodb"
+  ],
+  "author": "Jeremy J. Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoctorSlow/AudioKnife/issues"
+  },
+  "homepage": "https://github.com/DoctorSlow/AudioKnife#readme",
+  "dependencies": {
+    "npm": "^6.0.1"
+  }
+}
