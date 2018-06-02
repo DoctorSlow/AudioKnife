@@ -18,7 +18,7 @@ var PORT = 3000;
 
 // Initialize Express
 var app = express();
-
+ZZ
 // Configure middleware
 
 // Use morgan logger for logging requests
@@ -31,19 +31,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/AudioKnife");
+mongoose.connect("mongodb://localhost/AudioKnife1");
 
 // Routes
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with request
-  axios.get("http://www.echojs.com/").then(function (response) {
+  axios.get("https://pitchfork.com/").then(function (response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
     // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function (i, element) {
+    $("article-details").each(function (i, element) {
       // Save an empty result object
       var result = {};
 
