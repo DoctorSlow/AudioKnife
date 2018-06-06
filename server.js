@@ -14,7 +14,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -31,7 +31,15 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/AudioKnife1");
+// mongoose.connect("mongodb://localhost/AudioKnife1");
+
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AudioKnife1";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Routes
 
@@ -92,8 +100,8 @@ app.get("/articles/:id", function (req, res) {
   // and run the populate method with "note",
   // then responds with the article with the note included
   db.Article.findOne({
-      _id: req.params.id
-    })
+    _id: req.params.id
+  })
     .populate("note")
     .then(function (dbArticle) {
       res.json(dbArticle);
@@ -115,10 +123,10 @@ app.post("/articles/:id", function (req, res) {
       return db.Article.findOneAndUpdate({
         _id: req.params.id
       }, {
-        note: dbNote._id
-      }, {
-        new: true
-      });
+          note: dbNote._id
+        }, {
+          new: true
+        });
     })
     .then(function (dbArticle) {
       res.json(dbArticle);
