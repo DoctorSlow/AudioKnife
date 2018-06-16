@@ -34,7 +34,7 @@ app.use(express.static("public"));
 // mongoose.connect("mongodb://localhost/AudioKnife1");
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AudioKnife1";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AudioKnife";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
@@ -51,23 +51,25 @@ app.get("/scrape", function (req, res) {
     var $ = cheerio.load(response.data);
 
     // Now, we grab every h4 within an article tag, and do the following:
-    $("section").each(function (i, element) {
+    $("article").each(function (i, element) {
       // Save an empty result object
+
       var result = {};
-      console.log(result)
+      var link = $(this).find("h1").children("a");
+      //console.log($(this).html());
+
       // Add the text and href of every link, and save them as properties of the result object
-      // result.title = $('article').each
 
-      result.title = $(this).find("h1").children("a").text();
-      result.link = $(this).find("a").attr("href");
-      result.image = $(this).find("span.image").children("img").attr("src");
+      result.title = link.text();
+      result.link = link.attr("href");
+      //console.log(result);
+      // result.image = $(element).find("span.image").children("img").attr("src");
+      // add conditional logic for doing multiple website scrapes
 
-      // result.title = $(this)
-      //   .children("a")
-      //   .text();
-      // result.link = $(this)
-      //   .children("a")
-      //   .attr("href");
+      if (!result.title || !result.link) {
+        console.log('No Title or Link in ', result);
+        return;
+      }
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
@@ -76,10 +78,15 @@ app.get("/scrape", function (req, res) {
           console.log(dbArticle);
         })
         .catch(function (err) {
+          console.log(err);
           // If an error occurred, send it to the client
-          return res.json(err);
+          //return res.json(err);
         });
     });
+
+    // axios.get("https://google.com/").then(function (response) {
+    // console.log(response);
+    // });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
     res.send("Scrape Complete");
