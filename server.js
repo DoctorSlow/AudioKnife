@@ -53,18 +53,14 @@ app.get("/scrape", function (req, res) {
     // Now, we grab every h4 within an article tag, and do the following:
     $("article").each(function (i, element) {
       // Save an empty result object
-
       var result = {};
+
       var link = $(this).find("h1").children("a");
-      //console.log($(this).html());
-
       // Add the text and href of every link, and save them as properties of the result object
-
       result.title = link.text();
       result.link = link.attr("href");
       //console.log(result);
       // result.image = $(element).find("span.image").children("img").attr("src");
-      // add conditional logic for doing multiple website scrapes
 
       if (!result.title || !result.link) {
         console.log('No Title or Link in ', result);
