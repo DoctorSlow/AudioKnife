@@ -3,7 +3,7 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<h4>" + "<p data-id='" + data[i]._id + "'>" + data[i].title + "</h4>" + "<a href='" + data[i].link + "' target='_blank'>" + "<p class='card-text'>" + data[i].link + "</p></a>" + "<hr>");
+    $("#articles").prepend("<h4>" + "<p data-id='" + data[i]._id + "'>" + data[i].title + "</h4>" + "<a href='" + data[i].link + "' target='_blank'>" + "<p class='card-text'>" + data[i].link + "</p></a>" + "<hr>");
   }
 });
 
